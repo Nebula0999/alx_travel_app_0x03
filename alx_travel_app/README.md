@@ -66,3 +66,12 @@ See [requirement.txt](requirement.txt).
 - **ListingViewSet**: Manages travel listings (create, retrieve, update, delete).
 - **BookingViewSet**: Handles booking creation, listing, and management.
 - **ReviewViewSet**: Manages reviews for listings (create, list, update, delete).
+
+### Celery Integration
+
+- **Purpose**: Celery is used in this project to handle asynchronous tasks, specifically for sending emails (such as booking confirmations, password resets, etc.).
+- **How it works**: When an action requires an email to be sent (e.g., a user makes a booking), the email sending task is queued and processed by Celery workers in the background. This ensures the main application remains responsive and users don’t experience delays.
+- **Configuration**: Celery is configured with a message broker (like Redis or RabbitMQ). Email tasks are defined in a separate tasks module and called from relevant viewsets or signals.
+- **Example usage**:
+    - After a booking is created, the `BookingViewSet` triggers a Celery task to send a confirmation email to the user.
+
